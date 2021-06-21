@@ -1,124 +1,68 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from datetime import datetime, timedelta
+import json
+from dhis2 import Api
 import os
 
 import requests
 import csv
-from core.models import Province, District, HealthFacility, DataSet, DataElement, DataElementValue, DataSetValue
+from core.models import Province, District, HealthFacility, DataSet, DataElement
+from core.services.metadata_import import ImportMetadata
+from core.services.art_optimization import ARTOptimization
 
-path = '/Users/macbook/dev/echo'
 
-# API URL from openmrs
+# # API URL from openmrs
 
-# TETE SERVER
-API_URL = 'http://197.218.241.174:8080/openmrs/ws/rest/v1/reportingrest/dataSet/80c1489e-a536-4985-98f7-f9b1ad89f66d'
+# # TETE SERVER
+# API_URL = 'http://197.218.241.174:8080/openmrs/ws/rest/v1/reportingrest/dataSet/80c1489e-a536-4985-98f7-f9b1ad89f66d'
 
-# TODO: Dates will be pushid automatically
+# # TODO: Dates will be pushid automatically
+# # This happen on every 23 of each month
+# startDate = datetime.now() - timedelta(days=88)
+# endDate = startDate + timedelta(days=30)
+# str_startDate = str(startDate.strftime('%Y-%m-%d'))
+# str_endDate  = str(endDate.strftime('%Y-%m-%d'))
 
-params = {
-    'startDate': '2020-05-21', 
-    'endDate': '2020-06-20'
-}
+# months = {'01':'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug', '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
+
+# period_description = f'{months[str(endDate.month)]}{endDate.year}'
+
+# params = {
+#     'startDate': str_startDate, 
+#     'endDate': str_endDate
+# }
 
 
 @shared_task
 def load_orgunits():
-    with open(path + '/orgUnits_dhis.csv') as file:
-            data = csv.reader(file)
-            next(data) 
-            for row in data:
-                province, created = Province.objects.get_or_create(name=row[0])
-                district, created = District.objects.get_or_create(name=row[1], province=province)
-                healthfacility, created = HealthFacility.objects.get_or_create(id=row[4], name=row[2], openmrs_name=row[3], district=district)
-                
-                province.save()
-                district.save()
-                healthfacility.save()
+    orgUnits = ImportMetadata()
+    orgUnits.import_org_units('orgUnits_dhis.csv')
                 
 @shared_task
 def load_dataElements():
-     with open(path + '/dataElements.csv') as file:
-            data = csv.reader(file)
-            next(data)
-            dataSet = DataSet.objects.get(id='EqvSJGIvTjJ')
-            for row in data:
-                dataElement = DataElement(id=row[0], name=row[1], openmrs=row[2], dataSet=dataSet)
-                dataElement.save()
+    dataElements = ImportMetadata()
+    dataElements.import_data_elements('dataElements.csv')
+    
+@shared_task
+def load_openmrs_urls(): 
+    urls = ImportMetadata()
+    urls.import_openmrs_urls('openmrs_urls.csv')
+    
                 
 @shared_task
 def get_ped_optimization():
-    response = requests.get(API_URL, params=params, auth=('xavier.nhagumbe', 'Goabtgo1'))
-    data = response.json()['rows'][0] 
-    orgUnit = HealthFacility.objects.get(name=data['us'])
-    str_period = datetime.strptime(params['endDate'], '%Y-%m-%d')
-    period = datetime.strftime(str_period, '%Y%m')
-    dataSet = DataSet.objects.get(pk='EqvSJGIvTjJ')
-    dataSetValue, created = DataSetValue.objects.get_or_create(period=period, dataSet=dataSet, orgUnit=orgUnit) 
-    dataSetValue.save()
+    art_optimization = ARTOptimization()
+    art_optimization.get_openmrs_data()    
     
-    dts_value = DataSetValue.objects.get(period=period)
+@shared_task
+def post_ped_art_optimization():
+    art_optimization = ARTOptimization()
+    art_optimization.post_ped_art_optimization_to_dhis()
     
-    em_tarv, created = DataElementValue.objects.get_or_create(
-        value=data['em_tarv'],
-        dataElement=DataElement.objects.get(openmrs='em_tarv'),
-        dataSetValue=dts_value
-        )
+    # TODO : check if response status is Created and update sync column to True in DataSetValue and DataElementValue
+    # if response.json()['status'] == 'SUCCESS':
+    #     dataSetValue = DataSetValue.objects.filter()
+    # with open('data.txt', 'w') as json_file:
+    #     json.dump(data, json_file)
     
-    elegiveislpvr_geral, created = DataElementValue.objects.get_or_create(
-        value=data['elegiveislpvr_geral'],
-        dataElement=DataElement.objects.get(openmrs='elegiveislpvr_geral'),
-        dataSetValue=dts_value
-        )
-    
-    lpvr_geral, created = DataElementValue.objects.get_or_create(
-        value=data['lpvr_geral'],
-        dataElement=DataElement.objects.get(openmrs='lpvr_geral'),
-        dataSetValue=dts_value
-        )
-    
-    elegiveis_lpvr, created = DataElementValue.objects.get_or_create(
-        value=data['elegiveis_lpvr'],
-        dataElement=DataElement.objects.get(openmrs='elegiveis_lpvr'),
-        dataSetValue=dts_value
-        )
-    
-    lpvr, created = DataElementValue.objects.get_or_create(
-        value=data['lpvr'],
-        dataElement=DataElement.objects.get(openmrs='lpvr'),
-        dataSetValue=dts_value
-        )
-    
-    elegiveisdtg_geral, created = DataElementValue.objects.get_or_create(
-        value=data['elegiveisdtg_geral'],
-        dataElement=DataElement.objects.get(openmrs='elegiveisdtg_geral'),
-        dataSetValue=dts_value
-        )
-    
-    dtg_geral, created = DataElementValue.objects.get_or_create(
-        value=data['dtg_geral'],
-        dataElement=DataElement.objects.get(openmrs='dtg_geral'),
-        dataSetValue=dts_value
-        )
-    
-    elegiveisdtg, created = DataElementValue.objects.get_or_create(
-        value=data['elegiveisdtg'],
-        dataElement=DataElement.objects.get(openmrs='elegiveisdtg'),
-        dataSetValue=dts_value
-        )
-    
-    dtg, created = DataElementValue.objects.get_or_create(
-        value=data['dtg'],
-        dataElement=DataElement.objects.get(openmrs='dtg'),
-        dataSetValue=dts_value
-        )
-    
-    em_tarv.save()
-    elegiveislpvr_geral.save()
-    lpvr_geral.save()
-    elegiveis_lpvr.save()
-    lpvr.save()
-    elegiveisdtg_geral.save()
-    dtg_geral.save()
-    elegiveisdtg.save()
-    dtg.save()            

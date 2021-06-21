@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+{% load static %}
+<title>{% block title %}Echo Interoperability Middleware{% endblock title %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content=ECHO" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
+<!-- Graph CSS -->
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+<!-- jQuery -->
+<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'>
+<!-- lined-icons -->
+<link rel="stylesheet" href="{% static 'css/icon-font.min.css' %}" type='text/css' />
+<!-- //lined-icons -->
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'js/amcharts.js' %}"></script>	
+<script src="{% static 'js/serial.js' %}"></script>	
+<script src="{% static 'js/light.js' %}"></script>	
+<script src="{% static 'js/radar.js' %}"></script>	
+<link href="{% static 'css/barChart.css' %}" rel='stylesheet' type='text/css' />
+<link href="{% static 'css/fabochart.css' %}" rel='stylesheet' type='text/css' />
+<!-- Date Time Picker CSS -->
+  <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
+  <link rel='stylesheet' href="{% static 'date-time-phone/jquery-ui-timepicker-addon.css' %}" />
+<!-- Date Time Picker CSS -->
+
+<!--clock init-->
+<script src="{% static 'js/css3clock.js' %}"></script>
+<!--Easy Pie Chart-->
+<!--skycons-icons-->
+<script src="{% static 'js/skycons.js' %}"></script>
+
+ <!-- Date Time Picker JS -->
+  <script src="{% static 'date-time-phone/jquery-ui.js' %}" ></script>
+  <script src="{% static 'date-time-phone/jquery-ui-timepicker-addon.js' %}"></script> 
+
+<script src="{% static 'js/jquery.easydropdown.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+
+<!--//skycons-icons-->
+</head> 
+<body>
+<div class="page-container">
+<!--/content-inner-->
+<div class="left-content">
+	<div class="inner-content">
+	<!-- header-starts -->
+	<div class="header-section">
+				<!--menu-right-->
+				<div class="top_menu">
+						<div class="main-search">
+									<form>
+										<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search';}" class="text"/>
+										<input type="submit" value="">
+									</form>
+							<div class="close"><img src="{% static 'images/cross.png' %}" /></div>
+						</div>
+							<div class="srch"><button></button></div>
+							<script type="text/javascript">
+									$('.main-search').hide();
+								$('button').click(function (){
+									$('.main-search').show();
+									$('.main-search text').focus();
+								}
+								);
+								$('.close').click(function(){
+									$('.main-search').hide();
+								});
+							</script>
+					<!--/profile_details-->
+						<div class="profile_details_left">
+							<ul class="nofitications-dropdown">
+									<li class="dropdown note">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="badge">3</span></a>
+									</li>
+
+										
+								
+					<li class="dropdown note">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell-o"></i> <span class="badge">5</span></a>
+
+					</li>	
+				<li class="dropdown note">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i> <span class="badge blue1">9</span></a>
+								
+					</li>		   							   		
+					<div class="clearfix"></div>	
+						</ul>
+					</div>
+					<div class="clearfix"></div>	
+					<!--//profile_details-->
+				</div>
+				<!--//menu-right-->
+			<div class="clearfix"></div>
+		</div>
+			
+	{% block content %}
+	{% endblock content %}
+										
+	<footer>
+		<p>&copy 2021 Abt Associates Inc. All Rights Reserved</a></p>
+	</footer>
+<!--footer section end-->
+    </div>
+</div>
+				<!--//content-inner-->
+			<!--/sidebar-menu-->
+				<div class="sidebar-menu">
+					<header class="logo">
+					<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="{% url 'core:index' %}"> <span id="logo"> <h1>ECHO</h1></span> 
+					<!--<img id="logo" src="" alt="Logo"/>--> 
+				  </a> 
+				</header>
+<div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
+<!--/down-->
+				<div class="down">	
+							<a href="index.html"><img src={{request.profile.imageURL}}></a>
+							<a href="index.html"><span class=" name-caret">Xavier</span></a>
+							<p></p>
+						<ul>
+						<li><a class="tooltips" href="index.html"><span>Perfil</span><i class="lnr lnr-user"></i></a></li>
+							<li><a class="tooltips" href="index.html"><span>Definicoes</span><i class="lnr lnr-cog"></i></a></li>
+							<li><a class="tooltips" href=""><span>Sair</span><i class="lnr lnr-power-switch"></i></a></li>
+							</ul>
+						</div>
+					<!--//down-->
+				<div class="menu">
+						<ul id="menu" >
+							
+								<li id="menu-academico" ><a href="#"><i class="fa fa-file-text-o"></i> <span>ART Optimization</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+									<ul id="menu-academico-sub" >
+									<li id="menu-academico-boletim" ><a href="{% url 'core:art-optimization' %}">Listar</a></li>
+									</ul>
+								</li>
+						
+						<li id="menu-academico" ><a href="#"><i class="lnr lnr-book"></i> <span>TX_CURR</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+								<ul id="menu-academico-sub" >
+								<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+					
+								</ul>
+							</li>
+							
+						<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span>TX_NEW</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+								<ul id="menu-academico-sub" >
+								<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+
+								</ul>
+							</li>
+						<li><a href="chart.html"><i class="lnr lnr-chart-bars"></i> <span>TX_ML</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+							    <ul id="menu-academico-sub" >
+								<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+						</ul>
+						</li>
+						<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span>TX_PVLS</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+								<ul id="menu-academico-sub" >
+								<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+
+								</ul>
+							</li>
+						<li><a href="chart.html"><i class="lnr lnr-chart-bars"></i> <span>CXCA_TX</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+							    <ul id="menu-academico-sub" >
+								<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+						</ul>
+						<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span>TX_RTT</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+							<ul id="menu-academico-sub" >
+							<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+
+							</ul>
+						</li>
+					<li><a href="chart.html"><i class="lnr lnr-chart-bars"></i> <span>TX_TB and TB_PREV</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+							<ul id="menu-academico-sub" >
+							<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+					</ul>
+					<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span>IMER</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+						<ul id="menu-academico-sub" >
+						<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+
+						</ul>
+					</li>
+				<li><a href="chart.html"><i class="lnr lnr-chart-bars"></i> <span>DSD</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+						<ul id="menu-academico-sub" >
+						<li id="menu-academico-avaliacoes" ><a href="">Listar</a></li>
+				</ul>
+						</ul>
+					</div>
+					</div>
+					<div class="clearfix"></div>		
+				</div>
+				<script>
+				var toggle = true;
+							
+				$(".sidebar-icon").click(function() {                
+					if (toggle)
+					{
+					$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+					$("#menu span").css({"position":"absolute"});
+					}
+					else
+					{
+					$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+					setTimeout(function() {
+						$("#menu span").css({"position":"relative"});
+					}, 400);
+					}
+								
+								toggle = !toggle;
+							});
+
+<!--js -->
+<link rel="stylesheet" href="css/vroom.css">
+<script type="text/javascript" src="js/vroom.js"></script>
+<script type="text/javascript" src="js/TweenLite.min.js"></script>
+<script type="text/javascript" src="js/CSSPlugin.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="js/scripts.js"></script>
+<script type="text/javascript" src="js/tipo.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+   <script src="js/bootstrap.min.js"></script>
+
+<script>
+    $( function() {
+
+        $( "#id_data_devolucao" ).datepicker({ dateFormat: 'dd-mm-yy' }).attr("autocomplete", "off") 
+    });
+  </script>
+  <!-- Date Time Picker JS -->
+
+  <!-- Phone Mask JS -->
+  <script src="{% static 'date-time-phone/jquery-input-mask-phone-number.min.js' %}"></script> 
+
+  <script>
+    //(xxx) xxx-xxxx format code
+    $(document).ready(function () {
+        $('#id_telefone_1').usPhoneFormat({
+            format: '(xxx) xx-xxxxxxx',
+        })   
+    });
+  </script>
+  <!-- Phone Mask JS -->
+
+</body>
+</html>
