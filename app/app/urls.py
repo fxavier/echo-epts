@@ -18,6 +18,11 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+# Customizations
+admin.site.site_header = 'Welcome to ECHO Interoperabilty administration'
+admin.site.site_title = 'Echo epts'
+admin.site.index_title = 'Login to Echo Interobily'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),

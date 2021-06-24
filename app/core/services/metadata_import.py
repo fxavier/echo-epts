@@ -2,17 +2,7 @@ import csv
 from core.models import Province, District, HealthFacility, DataSet, DataElement, OpenmrsURL
 
 class ImportMetadata:
-    # def __init__(self, file): 
-    #     self.file = file
-        
-        
-    # @property
-    # def path(self):
-    #     return self._path
     
-    # @path.setter
-    # def path(self, path):
-    #     self._path = path
     def import_org_units(self, file): 
         path = '/Users/macbook/dev/echo'
         with open(path + '/'+ file) as csv_file:
