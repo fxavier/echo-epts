@@ -53,7 +53,7 @@ def load_openmrs_urls():
 @shared_task
 def get_ped_optimization():
     art_optimization = ARTOptimization()
-    art_optimization.get_openmrs_data()    
+    art_optimization.get_openmrs_optimization() 
     
 @shared_task
 def post_ped_art_optimization():
